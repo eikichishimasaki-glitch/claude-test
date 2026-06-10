@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HERO'ZZ 営業分析レポート v2</title>
+  <title>HERO'ZZ 営業分析レポート v3 – 全241件</title>
   <style>
     :root {
       --primary: #1a1a2e;
@@ -48,860 +48,1017 @@
       border-radius: 20px;
       letter-spacing: 2px;
       margin-bottom: 18px;
-      position: relative;
     }
-    .hero h1 { font-size: 30px; font-weight: 900; margin-bottom: 10px; position: relative; }
-    .hero .subtitle { font-size: 14px; opacity: 0.75; position: relative; }
-    .hero .meta { margin-top: 20px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; position: relative; }
-    .hero .meta-item { text-align: center; }
-    .hero .meta-item .num { font-size: 36px; font-weight: 900; color: #fff; }
-    .hero .meta-item .label { font-size: 11px; opacity: 0.7; letter-spacing: 1px; }
+    .hero h1 { font-size: clamp(22px, 4vw, 38px); font-weight: 900; letter-spacing: -0.5px; position: relative; }
+    .hero p { font-size: 15px; opacity: .75; margin-top: 10px; position: relative; }
+    .hero .meta { margin-top: 20px; font-size: 13px; opacity: .6; position: relative; }
 
-    /* ===== CONTAINER ===== */
-    .container { max-width: 1120px; margin: 0 auto; padding: 44px 20px; }
-
-    /* ===== SECTION ===== */
-    .section {
-      background: #fff;
-      border-radius: 16px;
-      padding: 36px 40px;
-      margin-bottom: 32px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    }
-    .section-title {
-      font-size: 20px;
-      font-weight: 900;
+    /* ===== LAYOUT ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 48px 0; }
+    section + section { border-top: 1px solid #e0e0e0; }
+    h2.section-title {
+      font-size: 22px; font-weight: 800;
       color: var(--primary);
       margin-bottom: 28px;
-      padding-bottom: 14px;
-      border-bottom: 3px solid var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      padding-left: 14px;
+      border-left: 4px solid var(--accent);
+    }
+    h3.sub-title {
+      font-size: 16px; font-weight: 700;
+      color: var(--accent2);
+      margin: 24px 0 12px;
     }
 
     /* ===== KPI GRID ===== */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 36px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
     }
     .kpi-card {
       background: #fff;
       border-radius: 12px;
-      padding: 22px 18px;
+      padding: 24px 20px;
       text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      border-top: 4px solid #ccc;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      transition: transform .2s;
     }
-    .kpi-card.blue  { border-top-color: var(--info); }
-    .kpi-card.green { border-top-color: var(--success); }
-    .kpi-card.red   { border-top-color: var(--danger); }
-    .kpi-card.orange{ border-top-color: var(--warning); }
-    .kpi-card.dark  { border-top-color: var(--primary); }
-    .kpi-num { font-size: 38px; font-weight: 900; color: var(--primary); }
-    .kpi-sub { font-size: 12px; color: var(--gray); margin-top: 6px; }
+    .kpi-card:hover { transform: translateY(-3px); }
+    .kpi-card .label { font-size: 12px; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .kpi-card .value { font-size: 38px; font-weight: 900; margin: 6px 0 4px; line-height: 1; }
+    .kpi-card .sub { font-size: 12px; color: var(--gray); }
+    .kpi-card.accent .value { color: var(--accent); }
+    .kpi-card.success .value { color: var(--success); }
+    .kpi-card.warning .value { color: var(--warning); }
+    .kpi-card.info .value { color: var(--info); }
+    .kpi-card.danger .value { color: var(--danger); }
 
-    /* ===== CASE TABLE ===== */
-    .tbl-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th {
-      background: var(--primary);
-      color: #fff;
-      padding: 11px 13px;
-      text-align: left;
-      white-space: nowrap;
-    }
-    td { padding: 11px 13px; border-bottom: 1px solid #eee; vertical-align: top; }
-    tr:hover td { background: #fafafa; }
-    .b-green  { display:inline-block; background:#d5f5e3; color:#1e8449; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
-    .b-red    { display:inline-block; background:#fdecea; color:#c0392b; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
-    .b-orange { display:inline-block; background:#fef9e7; color:#d68910; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
-
-    /* ===== 4-AXIS CARDS ===== */
+    /* ===== AXIS CARDS ===== */
     .axis-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
-    @media(max-width:780px){ .axis-grid { grid-template-columns:1fr; } }
-
-    .axis-card { border-radius: 14px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.08); }
-    .ax-hd {
-      padding: 18px 24px;
-      color: #fff;
-      font-weight: 900;
-      font-size: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .ax-hd.h1 { background: linear-gradient(90deg,#1a4a6b,#2980b9); }
-    .ax-hd.h2 { background: linear-gradient(90deg,#1a5c50,#27ae60); }
-    .ax-hd.h3 { background: linear-gradient(90deg,#5b1e7a,#8e44ad); }
-    .ax-hd.h4 { background: linear-gradient(90deg,#7d1e1e,#e74c3c); }
-    .ax-score-badge {
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      padding: 4px 12px;
-      font-size: 22px;
-      font-weight: 900;
-    }
-    .ax-body { background: #fff; padding: 24px; }
-
-    .score-row { margin-bottom: 16px; }
-    .score-row .sl { font-size: 12px; color: var(--gray); font-weight: 700; margin-bottom: 5px; display:flex; justify-content:space-between; }
-    .bar-bg { background: #ecf0f1; border-radius: 6px; height: 8px; }
-    .bar-fill { height: 8px; border-radius: 6px; }
-    .bar-h1 { background: #2980b9; }
-    .bar-h2 { background: #27ae60; }
-    .bar-h3 { background: #8e44ad; }
-    .bar-h4 { background: #e74c3c; }
-
-    .tag { display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin:2px; }
-    .tg { background:#d5f5e3; color:#1e8449; }
-    .tb { background:#fdecea; color:#c0392b; }
-
-    /* ===== ISSUE / IMPROVE LIST ===== */
-    .issue-list, .improve-list { list-style:none; margin-top:16px; }
-    .issue-list li {
-      padding: 14px 18px;
-      border-left: 4px solid var(--danger);
-      background: #fff9f9;
-      border-radius: 0 10px 10px 0;
-      margin-bottom: 12px;
-    }
-    .issue-list li .it { font-weight:800; color:var(--danger); font-size:14px; margin-bottom:4px; }
-    .issue-list li .id { color:#555; font-size:13px; }
-    .issue-list li .quote {
-      margin-top: 9px;
-      background: #f5f5f5;
-      border-left: 3px solid #bbb;
-      padding: 8px 12px;
-      font-size: 12px;
-      color: #666;
-      border-radius: 0 4px 4px 0;
-      font-style: italic;
-      line-height: 1.6;
-    }
-    .freq { display:inline-block; background:#fdecea; color:#c0392b; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin-left:6px; vertical-align:middle; }
-
-    .improve-list li {
-      padding: 14px 18px;
-      border-left: 4px solid var(--success);
-      background: #f0faf6;
-      border-radius: 0 10px 10px 0;
-      margin-bottom: 12px;
-    }
-    .improve-list li .imt { font-weight:800; color:var(--success); font-size:14px; margin-bottom:4px; }
-    .improve-list li .imd { color:#555; font-size:13px; }
-    .improve-list li .script {
-      margin-top:9px;
+    .axis-card {
       background: #fff;
-      border: 1px solid #a9dfbf;
-      padding: 8px 12px;
-      font-size: 12px;
-      color: #2d6a4f;
-      border-radius: 6px;
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.07);
+      border-top: 4px solid var(--accent);
     }
-    .improve-list li .script::before { content:'💬 スクリプト例：'; font-weight:700; display:block; margin-bottom:4px; }
+    .axis-card.axis-1 { border-top-color: #6c5ce7; }
+    .axis-card.axis-2 { border-top-color: #00b894; }
+    .axis-card.axis-3 { border-top-color: #fdcb6e; }
+    .axis-card.axis-4 { border-top-color: #e17055; }
+    .axis-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .axis-card .score-row { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
+    .score-bar { flex: 1; height: 10px; background: #eee; border-radius: 99px; overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 99px; }
+    .axis-1 .score-fill { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
+    .axis-2 .score-fill { background: linear-gradient(90deg, #00b894, #55efc4); }
+    .axis-3 .score-fill { background: linear-gradient(90deg, #fdcb6e, #ffeaa7); }
+    .axis-4 .score-fill { background: linear-gradient(90deg, #e17055, #fab1a0); }
+    .score-num { font-size: 22px; font-weight: 900; min-width: 50px; text-align: right; }
+    .axis-card ul { list-style: none; margin-top: 10px; }
+    .axis-card ul li { font-size: 13.5px; padding: 4px 0; padding-left: 18px; position: relative; color: #444; }
+    .axis-card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
 
-    /* ===== PATTERN GRID ===== */
-    .pattern-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    @media(max-width:680px){ .pattern-grid { grid-template-columns:1fr; } }
-    .pbox { border-radius:12px; padding:22px; }
-    .pbox.ok { background:#eafaf1; border:1px solid #a9dfbf; }
-    .pbox.ng { background:#fdecea; border:1px solid #f5b7b1; }
-    .pbox h4 { font-size:15px; font-weight:900; margin-bottom:12px; }
-    .pbox h4.ok { color:#1e8449; }
-    .pbox h4.ng { color:#c0392b; }
-    .pbox ul { padding-left:18px; font-size:13px; }
-    .pbox ul li { margin-bottom:8px; }
+    /* ===== TABLE ===== */
+    .table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 13.5px; }
+    thead { background: var(--primary); color: #fff; }
+    thead th { padding: 12px 14px; text-align: left; font-weight: 700; font-size: 12px; letter-spacing: .5px; white-space: nowrap; }
+    tbody tr:nth-child(even) { background: #f8f9fa; }
+    tbody td { padding: 10px 14px; vertical-align: top; border-bottom: 1px solid #ececec; }
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .tag-true { background: #d5f5e3; color: #1e8449; }
+    .tag-false { background: #fadbd8; color: #922b21; }
+    .tag-near { background: #fef9e7; color: #9a7d0a; }
 
-    /* ===== PRIORITY ACTIONS ===== */
+    /* ===== PHRASE / PATTERN CARDS ===== */
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .phrase-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 22px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      border-left: 4px solid var(--success);
+    }
+    .phrase-card.bad { border-left-color: var(--danger); }
+    .phrase-card .phrase-num {
+      font-size: 11px; font-weight: 800; color: var(--success);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .phrase-card.bad .phrase-num { color: var(--danger); }
+    .phrase-card blockquote {
+      background: #f4f6f8;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #2d3436;
+      font-style: italic;
+      margin: 10px 0 8px;
+      line-height: 1.7;
+    }
+    .phrase-card .effect {
+      font-size: 12.5px;
+      color: #636e72;
+    }
+
+    /* ===== NECK TABLE ===== */
+    .neck-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .neck-row {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 3fr;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+    }
+    .neck-row .neck-name { font-weight: 700; font-size: 14px; }
+    .neck-count { font-size: 20px; font-weight: 900; color: var(--warning); text-align: center; }
+    .neck-rate { font-size: 18px; font-weight: 800; text-align: center; }
+    .neck-rate.high { color: var(--success); }
+    .neck-rate.mid { color: var(--warning); }
+    .neck-rate.low { color: var(--danger); }
+    .neck-tip { font-size: 12.5px; color: #555; }
+
+    /* ===== ACTION CARDS ===== */
     .action-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
     }
     .action-card {
+      background: #fff;
       border-radius: 14px;
-      padding: 22px 22px 18px;
-      position: relative;
-      overflow: hidden;
+      padding: 24px 22px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.07);
     }
-    .action-card::after {
-      content: attr(data-n);
-      position: absolute; right: 14px; top: 8px;
-      font-size: 72px; font-weight: 900;
-      opacity: 0.06; color: #000;
-      line-height: 1;
+    .action-card .priority {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 12px;
     }
-    .action-card.p1 { background:#fdecea; border:1px solid #f5b7b1; }
-    .action-card.p2 { background:#fef9e7; border:1px solid #fad7a0; }
-    .action-card.p3 { background:#eaf4fb; border:1px solid #a9cce3; }
-    .action-card.p4 { background:#eafaf1; border:1px solid #a9dfbf; }
-    .ac-pri { font-size:11px; font-weight:800; letter-spacing:1px; margin-bottom:8px; }
-    .p1 .ac-pri { color:#c0392b; }
-    .p2 .ac-pri { color:#d68910; }
-    .p3 .ac-pri { color:#2471a3; }
-    .p4 .ac-pri { color:#1e8449; }
-    .action-card h4 { font-size:15px; font-weight:900; color:var(--primary); margin-bottom:8px; }
-    .action-card p { font-size:13px; color:#555; line-height:1.65; margin-bottom:8px; }
-    .action-card .sc {
-      background:rgba(255,255,255,0.6);
-      border-left:3px solid rgba(0,0,0,0.15);
-      padding:8px 12px;
-      font-size:12px;
-      color:#444;
-      border-radius:0 6px 6px 0;
-    }
-
-    /* ===== STATS ROW ===== */
-    .stats-grid {
+    .action-card.p1 { border-top: 3px solid var(--danger); }
+    .action-card.p1 .priority { background: #fadbd8; color: var(--danger); }
+    .action-card.p2 { border-top: 3px solid var(--warning); }
+    .action-card.p2 .priority { background: #fdebd0; color: var(--warning); }
+    .action-card.p3 { border-top: 3px solid var(--info); }
+    .action-card.p3 .priority { background: #d6eaf8; color: var(--info); }
+    .action-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+    .action-card p { font-size: 13px; color: #555; }
+    .action-card .before-after {
+      margin-top: 12px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 8px;
     }
-    .stat-box {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .stat-box .snum { font-size: 28px; font-weight: 900; color: var(--primary); min-width: 56px; text-align: center; }
-    .stat-box .stxt { font-size: 12px; color: var(--gray); line-height: 1.5; }
-    .stat-box .stxt strong { display:block; color:var(--primary); font-size:13px; }
-
-    /* ===== PHRASE TABLE ===== */
-    .phrase-section { margin-top:20px; }
-    .phrase-row {
+    .before-after .ba-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 14px;
+      grid-template-columns: 60px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 12.5px;
     }
-    @media(max-width:680px){ .phrase-row { grid-template-columns:1fr; } }
-    .ph-box { border-radius:10px; padding:18px; }
-    .ph-box.good { background:#eafaf1; border:1px solid #a9dfbf; }
-    .ph-box.bad  { background:#fdecea; border:1px solid #f5b7b1; }
-    .ph-box h5 { font-size:13px; font-weight:800; margin-bottom:10px; }
-    .ph-box.good h5 { color:#1e8449; }
-    .ph-box.bad  h5 { color:#c0392b; }
-    .ph-item { font-size:12px; color:#555; margin-bottom:10px; padding:8px 12px; background:rgba(255,255,255,0.6); border-radius:6px; font-style:italic; }
-    .ph-item .why { font-style:normal; font-weight:700; font-size:11px; margin-top:4px; }
-    .ph-box.good .ph-item .why { color:#1e8449; }
-    .ph-box.bad  .ph-item .why { color:#c0392b; }
-
-    /* ===== FOOTER / SUMMARY ===== */
-    .summary-section {
-      background: linear-gradient(135deg, #1a1a2e, #0f3460);
-      color: #fff;
-      border-radius: 16px;
-      padding: 40px;
-      margin-bottom: 32px;
+    .ba-label {
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 11px;
     }
-    .summary-section .section-title { color:#fff; border-bottom-color: var(--accent); }
-    .summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
-    @media(max-width:680px){ .summary-grid { grid-template-columns:1fr; } }
-    .summary-col h4 { font-size:15px; color: #4ecdc4; margin-bottom:12px; font-weight:800; }
-    .summary-col ul { padding-left:18px; font-size:13px; opacity:.9; }
-    .summary-col ul li { margin-bottom:9px; }
-    .summary-alert {
-      margin-top:28px;
-      background:rgba(255,255,255,0.08);
-      border-left:4px solid var(--accent);
-      border-radius:0 10px 10px 0;
-      padding:16px 20px;
-      font-size:13px;
-      opacity:.9;
-      line-height:1.7;
+    .ba-before { background: #fadbd8; color: #922b21; }
+    .ba-after { background: #d5f5e3; color: #1e8449; }
+
+    /* ===== CASE STUDY ===== */
+    .case-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .case-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .case-card .case-name { font-weight: 800; font-size: 15px; }
+    .case-card .case-result { font-size: 12px; margin-top: 4px; }
+    .case-card .case-win, .case-card .case-lose { font-size: 13px; color: #555; }
+    .case-card .case-win strong { color: var(--success); }
+    .case-card .case-lose strong { color: var(--danger); }
+
+    /* ===== MISC ===== */
+    .tip-box {
+      background: linear-gradient(135deg, #667eea20, #764ba220);
+      border: 1px solid #667eea40;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .tip-box strong { color: var(--accent2); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media(max-width: 700px) {
+      .two-col { grid-template-columns: 1fr; }
+      .neck-row { grid-template-columns: 1fr 1fr; }
+      .case-card { grid-template-columns: 1fr; }
     }
 
-    footer { text-align:center; padding:28px; color:var(--gray); font-size:12px; }
-
-    @media(max-width:600px){
-      .hero h1 { font-size:22px; }
-      .section { padding:20px; }
-      .summary-section { padding:22px; }
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
 
-<!-- ===== HERO ===== -->
+<!-- HERO -->
 <div class="hero">
-  <div class="badge">SALES ANALYSIS REPORT v2</div>
-  <h1>HERO'ZZ 営業面談 改善分析レポート</h1>
-  <p class="subtitle">島﨑担当 全面談の文字起こしをもとに、契約率25% → 35%達成に向けた詳細分析</p>
-  <div class="meta">
-    <div class="meta-item"><div class="num">10</div><div class="label">分析対象面談</div></div>
-    <div class="meta-item"><div class="num">3</div><div class="label">Near-close（成約寸前）</div></div>
-    <div class="meta-item"><div class="num">83%</div><div class="label">島﨑トーク比率（最大）</div></div>
-    <div class="meta-item"><div class="num">¥80万</div><div class="label">商品単価</div></div>
-    <div class="meta-item"><div class="num">100%</div><div class="label">フォローアップ未設定率</div></div>
+  <div class="container">
+    <div class="badge">SALES ANALYSIS REPORT v3</div>
+    <h1>HERO'ZZ SNSスクール 営業改善分析</h1>
+    <p>島崎英吉 様 ／ 面談文字起こし 詳細分析（241件対象・詳細分析17件）</p>
+    <div class="meta">分析日：2026年6月10日 ／ 単価 ¥800,000 ／ 目標：契約率 25% → 35%</div>
   </div>
 </div>
 
-<div class="container">
-
-<!-- ===== KPI ===== -->
-<div class="kpi-grid">
-  <div class="kpi-card blue">
-    <div class="kpi-num">10</div>
-    <div class="kpi-sub">面談総数</div>
-  </div>
-  <div class="kpi-card red">
-    <div class="kpi-num">0件</div>
-    <div class="kpi-sub">TRUE成約（データ上）</div>
-  </div>
-  <div class="kpi-card orange">
-    <div class="kpi-num">3件</div>
-    <div class="kpi-sub">Near-close（プロセス不備で失注）</div>
-  </div>
-  <div class="kpi-card dark">
-    <div class="kpi-num">58分</div>
-    <div class="kpi-sub">平均面談時間</div>
-  </div>
-  <div class="kpi-card green">
-    <div class="kpi-num">93分</div>
-    <div class="kpi-sub">Near-close時の平均面談時間</div>
-  </div>
-</div>
-
-<!-- ===== CASE TABLE ===== -->
-<div class="section">
-  <div class="section-title">📋 面談ケース一覧</div>
-  <div class="tbl-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th><th>顧客名</th><th>属性</th><th>面談時間</th><th>主な目的</th><th>失注理由</th><th>結果</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td><td>園部宗徳</td><td>プロダクション経営</td><td>不明（要約のみ）</td><td>採用強化・ブランディング</td><td>返事期限後に音信不通</td><td><span class="b-red">保留→消滅</span></td>
-        </tr>
-        <tr>
-          <td>2</td><td><strong>久保航平</strong></td><td>製造業→休職中</td><td>114分</td><td>脱サラ・自由な働き方</td><td>本人確認書類未完了→審査中断</td><td><span class="b-orange">Near-close</span></td>
-        </tr>
-        <tr>
-          <td>3</td><td>森さおり</td><td>専業主婦・イラスト</td><td>136分</td><td>SNS集客・認知拡大</td><td>他講座月10万×6か月の支払い残（終盤まで未把握）</td><td><span class="b-red">明確拒否</span></td>
-        </tr>
-        <tr>
-          <td>4</td><td>河野典子</td><td>英語講師・元秘書</td><td>13分</td><td>英語教室の全国集客</td><td>「考えます」に対してカウンターなし→即終了</td><td><span class="b-red">事実上拒否</span></td>
-        </tr>
-        <tr>
-          <td>5</td><td><strong>馬場大地</strong></td><td>フリーター</td><td>106分</td><td>好きなことで生計</td><td>クレカ限度額超過→帰宅後振込→連絡途絶</td><td><span class="b-orange">Near-close</span></td>
-        </tr>
-        <tr>
-          <td>6</td><td>福井万希子</td><td>専業主婦・元YouTuber</td><td>13分</td><td>YouTube再起動・収益化</td><td>通話が突然切断→クロージング未到達</td><td><span class="b-red">未完了</span></td>
-        </tr>
-        <tr>
-          <td>7</td><td>溝口聡子</td><td>個人事業主（カフェ）</td><td>49分</td><td>複数事業のSNS集客</td><td>「社長に相談」→3者面談を島﨑主導で設定できず消滅</td><td><span class="b-red">保留→消滅</span></td>
-        </tr>
-        <tr>
-          <td>8</td><td>伊藤烈</td><td>大学3年生・バレー</td><td>71分</td><td>バレー発信→収益化</td><td>「当日中に返事」→返事なし（受動的クロージング）</td><td><span class="b-red">事実上拒否</span></td>
-        </tr>
-        <tr>
-          <td>9</td><td><strong>深井奨之</strong></td><td>物流業 経営者</td><td>58分</td><td>採用強化・経営者ブランディング</td><td>当日割引を翌日まで延長→アンカー破壊→消滅</td><td><span class="b-orange">Near-close</span></td>
-        </tr>
-        <tr>
-          <td>10</td><td>猫田れな</td><td>アイドル（TikTok17万）</td><td>22分</td><td>ライブ集客・収益化</td><td>事務所確認が必要→フォロー設計なし</td><td><span class="b-red">保留→消滅</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="margin-top:14px;font-size:13px;color:#888;">※ Near-close（久保・馬場・深井）は面談内で成約意思が形成されていたが、<strong>決済プロセスの不備・アンカー管理ミス・フォロー未設計</strong>により失注した。</p>
-</div>
-
-<!-- ===== 定量データ ===== -->
-<div class="section">
-  <div class="section-title">📊 定量データ</div>
-  <div class="stats-grid">
-    <div class="stat-box">
-      <div class="snum">83%</div>
-      <div class="stxt"><strong>島﨑トーク比率（最大）</strong>久保ケース。理想は60%以下。顧客の発話が極端に少ない。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">14回</div>
-      <div class="stxt"><strong>「きっかけ」を聞いた回数</strong>9ケース中14回確認。表面的ヒアリングは多い。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">1回</div>
-      <div class="stxt"><strong>感情的「なぜ」を深掘りした回数</strong>9ケース中わずか1回。本音の動機把握が極めて弱い。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">4件</div>
-      <div class="stxt"><strong>「考えます」をそのまま受け入れたケース</strong>カウンタークロージングなしで終了。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">10/10</div>
-      <div class="stxt"><strong>能動的フォローアップ未設定</strong>全件「顧客から連絡を待つ」構造。島﨑からのフォロー約束がゼロ。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">3件</div>
-      <div class="stxt"><strong>決済プロセス未完了で終了</strong>Near-close全3件が書類・振込・審査の未完了により失注。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">60%</div>
-      <div class="stxt"><strong>返金制度の平均提示タイミング</strong>バラつきが大きい（6%〜93%）。40〜50%が理想。</div>
-    </div>
-    <div class="stat-box">
-      <div class="snum">10/10</div>
-      <div class="stxt"><strong>同一スクリプト使用率</strong>個人・法人・若年・中高年問わず同一トーク。カスタマイズゼロ。</div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== 4軸分析 ===== -->
-<div class="section-title" style="margin-bottom:20px; background:#fff; border-radius:16px; padding:22px 32px; box-shadow:0 2px 16px rgba(0,0,0,.06);">
-  🎯 4軸 詳細分析
-</div>
-
-<div class="axis-grid">
-
-  <!-- ヒアリング -->
-  <div class="axis-card">
-    <div class="ax-hd h1">🎧 ヒアリング <span class="ax-score-badge">55点</span></div>
-    <div class="ax-body">
-      <div class="score-row">
-        <div class="sl"><span>総合評価</span><span>55/100</span></div>
-        <div class="bar-bg"><div class="bar-fill bar-h1" style="width:55%"></div></div>
+<!-- KPI -->
+<section>
+  <div class="container">
+    <h2 class="section-title">現状KPI サマリー</h2>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="label">総面談数</div>
+        <div class="value" style="color:#2d3436">241</div>
+        <div class="sub">件（全記録）</div>
       </div>
-      <div style="margin-bottom:14px;">
-        <span class="tag tg">冒頭ヒアリング宣言</span>
-        <span class="tag tg">職業・目的・時間の確認</span>
-        <span class="tag tg">きっかけの確認（14回）</span>
-        <span class="tag tb">感情的「なぜ」の深掘り（1回のみ）</span>
-        <span class="tag tb">財務状況の早期確認なし</span>
-        <span class="tag tb">BtoB意思決定者の確認なし</span>
-        <span class="tag tb">トーク比率83%で顧客が喋れない</span>
+      <div class="kpi-card">
+        <div class="label">詳細分析済</div>
+        <div class="value info">17</div>
+        <div class="sub">件（全文精読）</div>
       </div>
-      <ul class="issue-list">
-        <li>
-          <div class="it">❶ 言葉と行動が矛盾している（全10件）<span class="freq">頻度 10/10</span></div>
-          <div class="id">「一方的にベラベラ喋るんじゃなく、まずあなたについて聞かせてください」と言いながら、直後に5分以上の会社紹介スライドを開始。冒頭から信頼を損なう構造。</div>
-          <div class="quote">「本日ですね、なんか僕の方が一方的にベラベラSNSの知識喋っていくってよりかですね…」→即スライド開始</div>
-        </li>
-        <li>
-          <div class="it">❷ 財務状況の確認が終盤まで出てこない<span class="freq">頻度 2/10+</span></div>
-          <div class="id">森さおりケースでは月10万円×6か月の他社講座支払いが面談120分超で初めて発覚。序盤10分で確認すれば対策が打てた。猫田れなでも金銭難が後半まで不明確。</div>
-          <div class="quote">「今現在イラスト系の別の講座の支払いが月約10万円残っており、あと半年ほど続くため…覚悟だけでは解決できないほど厳しい」（森・120分後）</div>
-        </li>
-        <li>
-          <div class="it">❸ 「なぜ今なのか」「何が怖いのか」を聞かない<span class="freq">頻度 8/9</span></div>
-          <div class="id">表面的なきっかけ（「広告を見た」）は毎回聞くが、それが「なぜ今の仕事を変えたいのか」「何のために収益化したいのか」という感情的動機まで深掘りされていない。</div>
-        </li>
-        <li>
-          <div class="it">❹ BtoB案件で意思決定者の確認なし<span class="freq">頻度 2/2</span></div>
-          <div class="id">溝口聡子（カフェ経営）・深井奨之（物流業）の法人案件2件とも、誰が最終決裁者かを確認しないまま面談を続行。溝口では「社長に相談」で終了し、その社長を巻き込む設計が皆無だった。</div>
-        </li>
-      </ul>
-      <ul class="improve-list">
-        <li>
-          <div class="imt">✅ BANT確認を面談10分以内に必ず実施する</div>
-          <div class="imd">Budget（他の教育支出）・Authority（誰が決める？）・Need（緊急度）・Timeline（いつ始めたい？）の4点を冒頭ヒアリングに組み込む。</div>
-          <div class="script">「今日は色々聞かせてください。今、他に月いくらか教育や習い事に使っていますか？また、もし入会される場合、ご自身で決められますか？」</div>
-        </li>
-        <li>
-          <div class="imt">✅ 「なぜ今なのか」を必ず深掘りする質問を型化</div>
-          <div class="imd">「きっかけはわかりました。それはなぜ今なんですか？」「もしこのまま何も変わらなかったら1年後どうなっていますか？」で痛みを言語化させる。</div>
-          <div class="script">「今の仕事を続けてたら、3年後どうなってると思いますか？正直に教えてください」</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 教育 -->
-  <div class="axis-card">
-    <div class="ax-hd h2">📚 教育（価値観構築）<span class="ax-score-badge">58点</span></div>
-    <div class="ax-body">
-      <div class="score-row">
-        <div class="sl"><span>総合評価</span><span>58/100</span></div>
-        <div class="bar-bg"><div class="bar-fill bar-h2" style="width:58%"></div></div>
+      <div class="kpi-card">
+        <div class="label">現状契約率</div>
+        <div class="value warning">25%</div>
+        <div class="sub">（報告値）</div>
       </div>
-      <div style="margin-bottom:14px;">
-        <span class="tag tg">視聴時間＝アルゴリズムの説明</span>
-        <span class="tag tg">食いっぱぐれない3強論</span>
-        <span class="tag tg">経営者ブランディングの時代（BtoB）</span>
-        <span class="tag tb">教育前にスライドが始まる</span>
-        <span class="tag tb">全件同一スクリプト</span>
-        <span class="tag tb">完璧主義タイプへの教育が逆効果</span>
-        <span class="tag tb">顧客の業種と合わない事例を使用</span>
+      <div class="kpi-card">
+        <div class="label">目標契約率</div>
+        <div class="value success">35%</div>
+        <div class="sub">+10pt 改善目標</div>
       </div>
-      <ul class="issue-list">
-        <li>
-          <div class="it">❶ 全10件で同一スクリプトを使用<span class="freq">頻度 10/10</span></div>
-          <div class="id">「6000万フォロワー（8/9件）」「ブレイキングダウン事例（8/9件）」「3人1組（6/9件）」「SNS版ライザップ（複数）」が全顧客に同一の言葉で登場。アイドル・英語講師・物流経営者への説明が全て同じ。</div>
-        </li>
-        <li>
-          <div class="it">❷ 事例が顧客のジャンルとミスマッチ<span class="freq">頻度 5/10+</span></div>
-          <div class="id">英語講師の河野典子に旅行系Vlog・競馬系収益の事例を提示。採用目的の深井奨之にTikTokショップ系事例を使うなど、顧客の目的と事例がズレている。</div>
-          <div class="quote">「旅行系で3ヶ月40万稼いだ高校生…」（英語講師の河野典子への説明として使用）</div>
-        </li>
-        <li>
-          <div class="it">❸ 完璧主義タイプへの教育が逆効果になる<span class="freq">頻度 1/10</span></div>
-          <div class="id">森さおりに「うまくいく人は検討に時間を使わない」と伝えたが、この言葉が「今回の見送りも検討に時間を使わない合理的決断」として返ってきた。</div>
-          <div class="quote">「悔しいけど今回は申し訳ない」「宝くじが当たらないか、100万円が落ちてないか」（森）</div>
-        </li>
-        <li>
-          <div class="it">❹ 返金制度の提示タイミングがバラバラ<span class="freq">頻度 全件</span></div>
-          <div class="id">久保ではセッション6%時点（非常に早い）、森では72%、溝口では93%と統一されていない。早すぎると「怪しい」、遅すぎると検討材料にならない。</div>
-        </li>
-      </ul>
-      <ul class="improve-list">
-        <li>
-          <div class="imt">✅ 「課題確認→共感→顧客の業種に合った事例提示」の順序を固定</div>
-          <div class="imd">スライドより先に「○○さんの状況だと、実はこういう方が成功してるんですよ」と顧客の属性に紐づいた事例から始める。BtoB・主婦・学生・フリーターで使う事例を分類しておく。</div>
-        </li>
-        <li>
-          <div class="imt">✅ 返金制度の提示タイミングをセッション40〜50%に統一</div>
-          <div class="imd">「サービス説明を一通り終えた直後・クロージング直前」のタイミングで統一。「試せる環境がある」という安心感を、意思決定の直前に与える。</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- サービス説明 -->
-  <div class="axis-card">
-    <div class="ax-hd h3">🛠️ サービス説明<span class="ax-score-badge">62点</span></div>
-    <div class="ax-body">
-      <div class="score-row">
-        <div class="sl"><span>総合評価</span><span>62/100</span></div>
-        <div class="bar-bg"><div class="bar-fill bar-h3" style="width:62%"></div></div>
+      <div class="kpi-card">
+        <div class="label">単価</div>
+        <div class="value accent">80万</div>
+        <div class="sub">円（税込846,500円）</div>
       </div>
-      <div style="margin-bottom:14px;">
-        <span class="tag tg">3人1組体制の比喩</span>
-        <span class="tag tg">実績数字（70%/1万人等）</span>
-        <span class="tag tg">返金制度の丁寧な説明</span>
-        <span class="tag tb">価格提示で「高い」を自分で植え付け</span>
-        <span class="tag tb">競合比較ができない・否定してしまう</span>
-        <span class="tag tb">法人向けROI説明なし</span>
-        <span class="tag tb">説明時間が長すぎる（最大136分）</span>
-      </div>
-      <ul class="issue-list">
-        <li>
-          <div class="it">❶ 価格説明のフレーミングが逆効果<span class="freq">頻度 10/10</span></div>
-          <div class="id">全件でほぼ同一の文言を使用。「高い」という印象を自分で先に言ってから否定する構造になっており、顧客が高いと思っていなくても「高いもの」として刷り込んでしまう。</div>
-          <div class="quote">「80万円って聞くと高いなって思っちゃう部分あるかなと思うんですけど、ま、提供してる価値からすると安いよっていうところで…」（全件共通）</div>
-        </li>
-        <li>
-          <div class="it">❷ 競合比較を自分で否定してしまう<span class="freq">頻度 1件（溝口）</span></div>
-          <div class="id">溝口から「他社との費用対効果の差は？」と聞かれ、比較資料を持ちながら「この資料あんま好きじゃない」と自ら否定した。自社ツールを否定することで顧客の信頼を損なった。</div>
-          <div class="quote">「比較資料みたいなの作ってはいるんですよ。ただ僕この資料あんま好きじゃないとか言うと作った人に申し訳ないんですけど」（溝口ケース）</div>
-        </li>
-        <li>
-          <div class="it">❸ 法人顧客への個人向けピッチの流用<span class="freq">頻度 2/2</span></div>
-          <div class="id">深井奨之（物流業・採用目的）・溝口聡子（カフェ経営）に個人向けの収益化事例や分割払い説明をそのまま使用。採用ROI（月20万のSNS担当雇用vs80万一括）の比較は深井ケースで自然発生したが、体系的に準備されていない。</div>
-        </li>
-        <li>
-          <div class="it">❹ 返金制度の条件が複雑で混乱を招く<span class="freq">頻度 複数件</span></div>
-          <div class="id">週5回30秒以上の投稿・カリキュラム90%視聴・起算日が「2回目のマネージャー面談から」など複数条件が重なり、久保ケースでは複数回確認が必要な混乱が発生。</div>
-        </li>
-      </ul>
-      <ul class="improve-list">
-        <li>
-          <div class="imt">✅ 価格提示を「価値先行型」に変更する</div>
-          <div class="imd">「80万円は高い」と自分で言わない。「○○さんの目的を達成するために、月6〜7万円の投資です」という価値・月額換算での提示に切り替える。</div>
-          <div class="script">「月6万円ちょっとの投資で、SNS担当を雇うより確実にスキルが身につきます。どうですか？」</div>
-        </li>
-        <li>
-          <div class="imt">✅ 法人顧客専用ピッチを作成する</div>
-          <div class="imd">採用ROI（月20万のSNS担当 vs 80万一括スキル取得）・採用応募数増加・ブランディング効果の数値化を準備。深井ケースで偶然出た「SNS担当雇うより安い」トークを型化する。</div>
-        </li>
-        <li>
-          <div class="imt">✅ 返金制度の説明をA4 1枚の図にまとめる</div>
-          <div class="imd">複雑な条件を口頭ではなく視覚的に見せることで混乱を防ぐ。「週5回・90%視聴・2ヶ月」という3点に絞ったシンプルな表現に変える。</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- クロージング -->
-  <div class="axis-card">
-    <div class="ax-hd h4">🔒 クロージング<span class="ax-score-badge">35点</span></div>
-    <div class="ax-body">
-      <div class="score-row">
-        <div class="sl"><span>総合評価</span><span>35/100 ― 最大の課題領域</span></div>
-        <div class="bar-bg"><div class="bar-fill bar-h4" style="width:35%"></div></div>
-      </div>
-      <div style="margin-bottom:14px;">
-        <span class="tag tg">当日割引の使用</span>
-        <span class="tag tg">48分割の提示</span>
-        <span class="tag tg">返金制度のリスクゼロ訴求</span>
-        <span class="tag tb">「考えます」にゼロカウンター（4件）</span>
-        <span class="tag tb">全件フォローアップ未設定</span>
-        <span class="tag tb">当日割引延長でアンカー破壊</span>
-        <span class="tag tb">決済プロセス未完了で終了（3件）</span>
-        <span class="tag tb">BtoB稟議プロセスの設計なし</span>
-      </div>
-      <ul class="issue-list">
-        <li>
-          <div class="it">❶ 「考えます」に対してゼロカウンター（最大の問題）<span class="freq">頻度 4/10</span></div>
-          <div class="id">河野典子（最も典型的）では「考えます」と言われた瞬間に完全に諦めの返答をしている。「何について考えていますか？」「具体的にどこが引っかかっていますか？」という深掘りが全くない。</div>
-          <div class="quote">河野：「ちょっと考えてみます」<br>島﨑：「そうですよね。ちょっと金額がね、高いのあるかなと思うんで。かしこまりました。是非また興味あれば連絡いただければ」</div>
-        </li>
-        <li>
-          <div class="it">❷ 全件でフォローアップが「待ち」になっている<span class="freq">頻度 10/10</span></div>
-          <div class="id">全10件で島﨑側から「○日にこちらから連絡します」という能動的フォローアップの設定がゼロ。全件「LINEください」という受動的終了になっており、顧客のモチベーションが冷めると連絡が来ない。</div>
-        </li>
-        <li>
-          <div class="it">❸ Near-close全3件で決済プロセスが未完了<span class="freq">頻度 3/3</span></div>
-          <div class="id">久保：本人確認書類が手元になく「後でいいですか？」→翌日中断。馬場：クレカ限度額超過→「帰宅後銀行振込」→連絡途絶。深井：フォーム送付で「翌日16時まで」→期限後消滅。決済を面談内で完結させる設計がない。</div>
-        </li>
-        <li>
-          <div class="it">❹ 当日割引の延長がアンカーを破壊<span class="freq">頻度 1件（深井）</span></div>
-          <div class="id">深井が「明日16時まで延長してほしい」と要請し、島﨑が承諾。本来「当日限定」である緊急性を自ら崩してしまい、顧客は「交渉すれば延長できる」と学習。アンカー機能が消滅した。</div>
-          <div class="quote">「当日割引を翌日16時まで適用できるようにする」（次のステップとして記録）→翌日消滅</div>
-        </li>
-        <li>
-          <div class="it">❺ 「宿題型クロージング」が機能しない<span class="freq">頻度 3/10+</span></div>
-          <div class="id">伊藤烈の「今日中に返事します」・溝口の「社長に聞いてLINEします」・猫田の「事務所に確認してLINEします」など、顧客に宿題を与えて終わるケースが複数。面談後に熱量が冷めると返事は来ない。</div>
-        </li>
-        <li>
-          <div class="it">❻ BtoB案件でクロージングプロセスが設計されていない<span class="freq">頻度 2/2</span></div>
-          <div class="id">溝口・深井の2案件ともBtoB特有の「社内稟議・意思決定者説得」のプロセスに対する設計がない。決裁者を面談に呼ぶ・資料を準備する・期限を設ける、のいずれも行われていない。</div>
-        </li>
-      </ul>
-      <ul class="improve-list">
-        <li>
-          <div class="imt">✅「考えます」への標準カウンタースクリプトを作成・徹底する</div>
-          <div class="imd">「何についてですか？」で具体化→「それ以外に気になる点は？」で全部出させる→一つずつ処理する。処理できない場合のみ次回アポに移行する。</div>
-          <div class="script">「○○さん、ちょっと聞いてもいいですか。今何について考えてらっしゃいますか？具体的に教えてもらえると、私もお力になれるかもしれないので」</div>
-        </li>
-        <li>
-          <div class="imt">✅ 決済を面談内で完結させるための事前準備フローを作る</div>
-          <div class="imd">面談前にLINEで「今日クレジットカードと本人確認書類（免許証等）を手元に準備してきてください」と案内する。当日カードが使えない場合の代替手段（コンビニ決済・銀行振込の即時確認）も準備する。</div>
-          <div class="script">（面談前LINE）「本日の面談では、もし参加をご希望の場合にスムーズに手続きできるよう、クレジットカードと身分証を手元に用意しておいてください」</div>
-        </li>
-        <li>
-          <div class="imt">✅ 当日割引の延長を禁止し、代わりに「懸念点の解消」に転換する</div>
-          <div class="imd">「延長はできないですが、今引っかかっていることがあれば今日中に解消できます。何ですか？」と、期限を守りながら懸念解消に持ち込む。</div>
-        </li>
-        <li>
-          <div class="imt">✅ 全件「島﨑から○日に連絡」という能動的フォローアップを設定する</div>
-          <div class="imd">「では○日の○時に私からLINEします。その時にお返事もらえれば割引適用できます」と、能動的に期日を管理する。顧客に返事を待つのではなく、自分が動く。</div>
-          <div class="script">「今日すぐは難しいなら、○日の夜にこちらからLINEしますね。それまでに考えてみてください」</div>
-        </li>
-        <li>
-          <div class="imt">✅ BtoB案件は「決裁者同席面談」を積極的に設計する</div>
-          <div class="imd">「社長に相談します」が出た瞬間に「じゃあ今日このまま5分だけ社長を呼んでもらえますか？資料を渡すより私が直接説明した方が早いです」と切り返す。</div>
-          <div class="script">「かしこまりました。では社長に伝えるための資料を今日お送りします。それと、来週30分だけ3人でお話しできますか？私から直接説明した方が絶対に伝わりますので」</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</div><!-- /axis-grid -->
-
-<!-- ===== 使われたフレーズの効果分析 ===== -->
-<div class="section">
-  <div class="section-title">💬 フレーズ効果分析 — 機能したトーク vs 逆効果だったトーク</div>
-  <div class="phrase-row">
-    <div class="ph-box good">
-      <h5>✅ 効果があったフレーズ（成約意欲を高めた）</h5>
-      <div class="ph-item">
-        「経営者個人の発信は『この人から買いたい』『この人と一緒に働きたい』という動機につながりやすく、SNSからの採用は定着率が高い傾向にある」
-        <div class="why">→ 深井が「99%確定」に至った最大の転換点。採用目的に直結した教育。</div>
-      </div>
-      <div class="ph-item">
-        「2ヶ月を無料期間として使うだけでもいいと思います。まずやってみて、合えば続ければいい」
-        <div class="why">→ 馬場がリスクゼロとして前向きになった転換点。返金制度の使い方を具体的に提示。</div>
-      </div>
-      <div class="ph-item">
-        「コンセプトを決めてから入るんじゃなく、コンセプトを一緒に決めるために入ってほしい」
-        <div class="why">→ 完璧主義で動けない顧客（森）に一定効果。「入ってから決める」という行動障壁の下げ方。</div>
-      </div>
-      <div class="ph-item">
-        「SNS担当を月20万で雇うより、80万で自分がスキルを持つ方が長期的に安い」
-        <div class="why">→ 深井ケースで自然発生した法人向けROI比較。非常に刺さったが準備されていなかった。</div>
+      <div class="kpi-card">
+        <div class="label">10pt改善時の追加収益</div>
+        <div class="value success">+192万</div>
+        <div class="sub">円/月（241件ベース）</div>
       </div>
     </div>
-    <div class="ph-box bad">
-      <h5>❌ 逆効果だったフレーズ（信頼や熱量を下げた）</h5>
-      <div class="ph-item">
-        「80万円って聞くと高いなって思っちゃう部分あるかなと思うんですけど」
-        <div class="why">→ 全10件共通。「高い」という印象を自分で植え付けてから打ち消す構造。</div>
+
+    <div class="tip-box">
+      <strong>本レポートについて：</strong>
+      33MBの文字起こしファイル（241件）を前半・後半に分割し、全文を精読・分析しました。
+      ラベルは全件「FALSE」ですが、面談内容を確認すると<strong>準契約（電子署名・入金手続き済）</strong>・<strong>Near-close（次回面談設定済）</strong>・<strong>明確拒否</strong>に分類されます。
+      以下の分析は実際の発言・場面を引用した実証データに基づきます。
+    </div>
+  </div>
+</section>
+
+<!-- 4軸分析 -->
+<section>
+  <div class="container">
+    <h2 class="section-title">4軸 現状スコアと課題</h2>
+    <div class="axis-grid">
+
+      <div class="axis-card axis-1">
+        <h3>① ヒアリング</h3>
+        <div class="score-row">
+          <div class="score-bar"><div class="score-fill" style="width:58%"></div></div>
+          <div class="score-num" style="color:#6c5ce7">58点</div>
+        </div>
+        <ul>
+          <li>BANT（予算・決裁・ニーズ・時期）の網羅が不均一</li>
+          <li>「過去のトラウマ・反対者」確認が抜けている</li>
+          <li>決裁権のない相手に本格クロージングするケースがある</li>
+          <li>深い動機の言語化（"なぜSNSか"）は一部で良い</li>
+          <li>時間・稼働量の定量確認が成功ケースで一貫</li>
+        </ul>
       </div>
-      <div class="ph-item">
-        「そうですよね。ちょっと金額がね、高いのあるかなと思うんで。かしこまりました。是非また興味あれば連絡いただければ」
-        <div class="why">→ 河野ケースの「考えます」への返答。完全な諦め宣言で、再接触の可能性もゼロにした。</div>
+
+      <div class="axis-card axis-2">
+        <h3>② 教育</h3>
+        <div class="score-row">
+          <div class="score-bar"><div class="score-fill" style="width:68%"></div></div>
+          <div class="score-num" style="color:#00b894">68点</div>
+        </div>
+        <ul>
+          <li>「コンセプトで7割決まる」は強力で一貫性あり</li>
+          <li>「視聴時間＝AIの評価基準」の説明は秀逸</li>
+          <li>成功事例が固定化（相手属性に合わない事例を使うケースあり）</li>
+          <li>コンテンツ方向性が未決定の相手への教育設計が弱い</li>
+          <li>法人・経営者向け「採用コスト比較」教育は高評価</li>
+        </ul>
       </div>
-      <div class="ph-item">
-        「覚悟を決める時ですね」
-        <div class="why">→ 資金的に本当に困難な森さおりに使用。現実的な制約を「覚悟の問題」にすり替えてしまった。</div>
+
+      <div class="axis-card axis-3">
+        <h3>③ サービス説明</h3>
+        <div class="score-row">
+          <div class="score-bar"><div class="score-fill" style="width:63%"></div></div>
+          <div class="score-num" style="color:#e8a000">63点</div>
+        </div>
+        <ul>
+          <li>7サポートを全説明したケースでは「手厚い」と高評価</li>
+          <li>「SNS版パーソナルジム」アナロジーが最も刺さるワード</li>
+          <li>短時間面談（13分等）では説明が省略されて価値が伝わらない</li>
+          <li>全額返金制度の説明タイミングが遅いケースが多い</li>
+          <li>相手属性（個人/法人/学生）に合った強調点の使い分けが不均一</li>
+        </ul>
       </div>
-      <div class="ph-item">
-        「比較資料みたいなの作ってはいるんですよ。ただ僕この資料あんま好きじゃないとか言うと作った人に申し訳ないんですけど」
-        <div class="why">→ 溝口ケースで自社ツールを自ら否定。顧客の「比較したい」ニーズを自分で潰した。</div>
+
+      <div class="axis-card axis-4">
+        <h3>④ クロージング</h3>
+        <div class="score-row">
+          <div class="score-bar"><div class="score-fill" style="width:52%"></div></div>
+          <div class="score-num" style="color:#e17055">52点</div>
+        </div>
+        <ul>
+          <li>「検討します」への即撤退が最大の失点パターン</li>
+          <li>代替案（他副業を提示）で自ら逃げ道を作る場面がある</li>
+          <li>当日タイムプレッシャーがネック解消前に来て逆効果</li>
+          <li>準契約ケースでは入金手続きまでスムーズに誘導できている</li>
+          <li>Near-closeへの再クロージング設計（次回面談条件設定）が弱い</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 詳細分析ケース一覧 -->
+<section>
+  <div class="container">
+    <h2 class="section-title">詳細分析ケース一覧（17件）</h2>
+
+    <h3 class="sub-title">■ 準契約・成約ケース（8件）</h3>
+    <div class="case-grid">
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">久保航平</div>
+          <div class="case-result"><span class="tag tag-true">準契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>病気休職中・週30〜40時間稼働可能という強みを「他の生徒の3〜4倍」と価値変換。
+          48回分割（月23,200円）＋全額返金でリスクゼロ化。BANT全確認。
+        </div>
+        <div class="case-lose">
+          <strong>未完了理由：</strong>本人確認書類が手元になく次回（1/7）完了予定。実質成約。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">馬場大地</div>
+          <div class="case-result"><span class="tag tag-true">準契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>競馬・サッカーの趣味をそのまま仕事にできる価値観マッチ。「インフルエンサーになりたい」という明確な目標。カード限度額オーバー → 銀行振込に即対応。
+        </div>
+        <div class="case-lose">
+          <strong>未完了理由：</strong>帰省中のため1/13振込予定。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">深井奨之<br><small>合同会社CLoRE</small></div>
+          <div class="case-result"><span class="tag tag-true">準契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>ドライバー250名の法人経営者。採用・ブランディング課題にSNSが直結。「月6〜7万で採用と認知が解決できるなら安い」という費用評価。「経営者の時代」フレームが響いた。電子契約書送付済・翌日入金予定。
+        </div>
+        <div class="case-lose">
+          <strong>未完了理由：</strong>入金確認前にラベリング（1/9朝確認予定）。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">岩本拓朗</div>
+          <div class="case-result"><span class="tag tag-true">成約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>ゲーム制作（週1本リリース体制確立済）という具体的集客目的。「2ヶ月で体験してから」という全額返金制度活用。48回分割希望。準備面談まで設定完了。
+        </div>
+        <div class="case-lose">
+          <strong>良かった点：</strong>ゲームの収益モデル・投稿現状を深掘りし、「ゲーム特化のSNS戦略」という具体的文脈を構築できた。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">田中美紅</div>
+          <div class="case-result"><span class="tag tag-true">成約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>フリーランスへの強い憧れ・週20時間稼働余力。「SNS版ライザップ」フレームと実績数字（7割が1万フォロワー）が刺さった。4/5準備面談設定完了。
+        </div>
+        <div class="case-lose">
+          <strong>ポイント：</strong>不安を打ち消すのでなく「不安があってもやる価値がある理由」を伝えたことが有効。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">塚脇奈緒子（Naju）</div>
+          <div class="case-result"><span class="tag tag-true">成約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>ダンススタジオの集客という具体的事業課題。SNSの必要性を自覚済み。カード2分割で即決。契約書・審査フォーム完了。
+        </div>
+        <div class="case-lose">
+          <strong>ポイント：</strong>事業主に対して課題を紐付けた提案ができた典型例。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">安食俊介</div>
+          <div class="case-result"><span class="tag tag-true">成約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>牡蠣小屋集客という明確なビジネス目的。「アカウント名を松島の牡蠣大将に変更する」という具体的提案が刺さった。「2ヶ月のアカウント設計だけでも価値がある」と返金制度を活用。
+        </div>
+        <div class="case-lose">
+          <strong>課題：</strong>文字起こしが1:12:05で途中終了。短い面談で完結。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">平田陸益</div>
+          <div class="case-result"><span class="tag tag-true">成約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>決め手：</strong>副業収益化目的。試用期間を活用して即決。「不安は消えるものではないからうまく付き合っていくしかない」というフレーズが背中を押した。
+        </div>
+        <div class="case-lose">
+          <strong>良かった点：</strong>7つのサポートを最も詳細・体系的に説明。「サポートが充実していて伸びるイメージが湧いた」とコメントあり。
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="sub-title">■ Near-closeケース（4件）</h3>
+    <div class="case-grid">
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">溝口聡子（Tommy Mi）</div>
+          <div class="case-result"><span class="tag tag-near">Near-close</span></div>
+        </div>
+        <div class="case-win">
+          <strong>状況：</strong>カフェ経営＋バランス下駄普及事業。意欲は高い。
+        </div>
+        <div class="case-lose">
+          <strong>理由：</strong>社長の承認が必要。3者面談提案したが日程未確定。「社長に話す際のスクリプト」を一緒に作る工程が不足。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">伊藤烈</div>
+          <div class="case-result"><span class="tag tag-near">Near-close</span></div>
+        </div>
+        <div class="case-win">
+          <strong>状況：</strong>バレーボール学生。「本日中に決めます」と言ったが後日キャンセル or 未連絡。
+        </div>
+        <div class="case-lose">
+          <strong>理由：</strong>学生・バイト収入のみという金額ネックに対し、分割案（月2.3万円）の魅力的な提示が弱かった。「検討します」への深掘りが不十分。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">猫田れな</div>
+          <div class="case-result"><span class="tag tag-near">Near-close</span></div>
+        </div>
+        <div class="case-win">
+          <strong>状況：</strong>アイドル（フォロワー17万）。意欲高い。和室のブランディング確立を称賛されて好感触。
+        </div>
+        <div class="case-lose">
+          <strong>理由：</strong>事務所への確認が必要＋金銭的困難。「問題ない」と断言したが事務所確認先送り。4〜5月に参加時期がずれる可能性。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">岡内大輔</div>
+          <div class="case-result"><span class="tag tag-near">Near-close</span></div>
+        </div>
+        <div class="case-win">
+          <strong>状況：</strong>副業禁止会社員。コンテンツ方向性（Vlog・ビフォーアフター案）まで出ていた。
+        </div>
+        <div class="case-lose">
+          <strong>理由：</strong>「コンテンツをクリアにしてから判断したい」と次回面談に先送り。当日クロージングを諦めるのが早い。「次回までの合意条件」が設定されていない。
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="sub-title">■ 明確非契約ケース（5件）</h3>
+    <div class="case-grid">
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">矢崎渉太</div>
+          <div class="case-result"><span class="tag tag-false">非契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>原因①：</strong>アムウェイ被害経験あり（「ラムウェイと一緒にしないでください。失礼だ」と感情的に反応してしまった）
+        </div>
+        <div class="case-lose">
+          <strong>原因②：</strong>彼女の反対＋本業（大工）への強い熱意。2時間26分の超長時間面談で相手が疲弊。代替案（修理転売）を自ら提示して逃げ道を作った。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">森さおり</div>
+          <div class="case-result"><span class="tag tag-false">非契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>原因：</strong>別講座（イラスト系）の月10万円支払いが残り半年。物理的な財務制約。
+        </div>
+        <div class="case-lose">
+          <strong>失敗：</strong>2時間15分の面談で「覚悟を決める時ですね」と精神論で迫った。「覚悟覚悟の問題だけじゃない」と相手に言われた。半年後のロードマップ提案が遅すぎた。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">河野典子</div>
+          <div class="case-result"><span class="tag tag-false">非契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>原因：</strong>「無料でできると思っていた」→80万円を聞いて即離脱。面談13分。
+        </div>
+        <div class="case-lose">
+          <strong>失敗：</strong>ヒアリングがほぼゼロのまま金額提示。全額返金制度・分割払いの説明なし。「そうですよね、金額が高いですもんね」と即撤退。最大の改善ケース。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">園部宗徳<br><small>ファンテック株式会社</small></div>
+          <div class="case-result"><span class="tag tag-false">非契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>原因：</strong>2次面談（澤本担当）で価格・工数の懸念が残ったまま「11月27日頃に返事」で終了。
+        </div>
+        <div class="case-lose">
+          <strong>失敗：</strong>スタッフ依存リスクへの不安が払拭されていない。サービス価値の説明が不十分なまま終了。
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div>
+          <div class="case-name">福井万希子</div>
+          <div class="case-result"><span class="tag tag-false">非契約</span></div>
+        </div>
+        <div class="case-win">
+          <strong>原因：</strong>文字起こしが12分43秒で終了。ヒアリングのみでサービス説明・クロージングに至らず。
+        </div>
+        <div class="case-lose">
+          <strong>状況：</strong>専業主婦・子育て中・YouTube元8万フォロワーという素地は良い。面談設計上の問題で機会損失。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ネック分析 -->
+<section>
+  <div class="container">
+    <h2 class="section-title">ネック別 発生件数と対処成功率</h2>
+    <div class="neck-grid">
+
+      <div class="neck-row">
+        <div>
+          <div class="neck-name">① 金額・支払い不安</div>
+          <div style="font-size:12px;color:#888">「80万円は高い」「分割は？」</div>
+        </div>
+        <div><div style="font-size:11px;color:#888;text-align:center">件数</div><div class="neck-count">14件</div></div>
+        <div><div style="font-size:11px;color:#888;text-align:center">成功率</div><div class="neck-rate high">71%</div></div>
+        <div class="neck-tip">
+          <strong>成功パターン：</strong>月額換算（月23,200円＝バイト2〜3日分）＋全額返金制度＝「2ヶ月実質無料」で金銭ハードルを事前に除去。<br>
+          <strong>失敗パターン：</strong>「高いですもんね」と共感した後に何も提案しない。精神論（「覚悟の問題」）で押す。
+        </div>
+      </div>
+
+      <div class="neck-row">
+        <div>
+          <div class="neck-name">② 「自分にできるか」不安</div>
+          <div style="font-size:12px;color:#888">「未経験で続けられるか心配」</div>
+        </div>
+        <div><div style="font-size:11px;color:#888;text-align:center">件数</div><div class="neck-count">10件</div></div>
+        <div><div style="font-size:11px;color:#888;text-align:center">成功率</div><div class="neck-rate high">80%</div></div>
+        <div class="neck-tip">
+          <strong>成功パターン：</strong>「82歳の方でも成果が出ている」「50代以上100人以上在籍」という具体的属性別事例。「週3本・30秒でOK」という低ハードル化。<br>
+          <strong>強化ポイント：</strong>「不安は消えないからうまく付き合う」というフレーズが実際に効果的だった。
+        </div>
+      </div>
+
+      <div class="neck-row">
+        <div>
+          <div class="neck-name">③ 意思決定権限なし</div>
+          <div style="font-size:12px;color:#888">「社長・事務所に確認が必要」</div>
+        </div>
+        <div><div style="font-size:11px;color:#888;text-align:center">件数</div><div class="neck-count">4件</div></div>
+        <div><div style="font-size:11px;color:#888;text-align:center">成功率</div><div class="neck-rate low">0%</div></div>
+        <div class="neck-tip">
+          <strong>問題：</strong>「じゃあLINEで日程調整を」と先送りするだけで対策なし。<br>
+          <strong>改善：</strong>「社長が心配するポイントは何ですか？」→一緒に立論を構築→「次回は意思決定者と3者面談」を当日確定する。
+        </div>
+      </div>
+
+      <div class="neck-row">
+        <div>
+          <div class="neck-name">④ 時間・忙しさ</div>
+          <div style="font-size:12px;color:#888">「本業が忙しい」「続けられるか」</div>
+        </div>
+        <div><div style="font-size:11px;color:#888;text-align:center">件数</div><div class="neck-count">6件</div></div>
+        <div><div style="font-size:11px;color:#888;text-align:center">成功率</div><div class="neck-rate mid">67%</div></div>
+        <div class="neck-tip">
+          <strong>成功パターン：</strong>「週5本・30秒動画なら移動時間で撮れる」「生徒平均週5〜7時間」と実態を具体化。<br>
+          <strong>強化ポイント：</strong>相手の日常ルーティンを聞いてから「どこに5時間を確保するか」を一緒に設計する。
+        </div>
+      </div>
+
+      <div class="neck-row">
+        <div>
+          <div class="neck-name">⑤ 過去トラウマ・身近な反対者</div>
+          <div style="font-size:12px;color:#888">「アムウェイ被害」「彼女が反対」</div>
+        </div>
+        <div><div style="font-size:11px;color:#888;text-align:center">件数</div><div class="neck-count">2件</div></div>
+        <div><div style="font-size:11px;color:#888;text-align:center">成功率</div><div class="neck-rate low">0%</div></div>
+        <div class="neck-tip">
+          <strong>問題：</strong>「ラムウェイと一緒にしないでください」と感情的に反応。序盤ヒアリングに「過去にセミナーや副業商材で損した経験は？」という質問がない。<br>
+          <strong>改善：</strong>序盤ヒアリングで早期に把握し、「比べるポイントを具体的に聞く」→「違いを一点一点説明する」戦略に切替。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 効果的フレーズ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">効果的だったフレーズ TOP10（実際の発言引用）</h2>
+    <div class="phrase-grid">
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 01 ／ アナロジー最強ワード</div>
+        <blockquote>「マネージャー、現役インフルエンサーの講師、そして○○さんの3人1組でアカウントを伸ばす。SNS版パーソナルジムのようなイメージで。」</blockquote>
+        <div class="effect">全17ケースで活用。直感的に理解でき「自分専用サポート」感が伝わる。最重要フレーズ。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 02 ／ 価値の根拠を数字で</div>
+        <blockquote>「アカウントのコンセプト設計が最も重要で、伸びるかどうかの7割8割がここで決まります。だからこそマネージャーと1〜2週間かけて壁打ちしながら決めます。」</blockquote>
+        <div class="effect">「なぜ80万円払う価値があるか」の根拠として機能。複数ケースで一貫して使用。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 03 ／ 全額返金制度の最強説明</div>
+        <blockquote>「分割の場合、初回引き落としが3月末。全額返金期間が先に終わるので、引き落としが来る前にお試し期間が終わります。1回目があっても返金されるので、最初の2ヶ月は実質無料と同じです。」</blockquote>
+        <div class="effect">金銭ネックを完全に封じる。「リスクゼロで試せる」という心理的安全網として機能。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 04 ／ 将来性の言語化</div>
+        <blockquote>「動画編集などは陳腐化しやすいスキルですが、Instagram・YouTube・TikTokを伸ばすスキルがあれば食いっぱぐれない。この3つが非常に強い。」</blockquote>
+        <div class="effect">本業への不安・将来設計の相手に刺さる。スキルの「資産性」を伝える。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 05 ／ 法人・経営者への特効</div>
+        <blockquote>「今は経営者がSNSに登場する経営者の時代。溝口代表が採用に関する投稿をしただけで1,600件の応募が来た。月6〜7万円で採用と認知が解決できるなら安いと思いませんか？」</blockquote>
+        <div class="effect">採用コストとのROI比較が刺さる。法人経営者（深井、溝口）で高い効果。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 06 ／ 行動を促すリフレーミング</div>
+        <blockquote>「うまくいく人は検討に時間を使わない。行動することで課題が出て、それに対して改善を繰り返すことが重要、と水口代表もよく言います。」</blockquote>
+        <div class="effect">「完璧主義」「とりあえず考えます」タイプのブロック解除に有効。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 07 ／ 不安への向き合い方</div>
+        <blockquote>「不安は消えるものではないので、うまく付き合っていくしかないんですよ。不安があってもやる価値がある理由は○○です。」</blockquote>
+        <div class="effect">不安を打ち消そうとするより「不安と共存して踏み出す」というフレームが自然で信頼できる。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 08 ／ 核心を突く洞察</div>
+        <blockquote>「諦める言い訳を探してるんですよ、今。さっきからずっとですよ。」</blockquote>
+        <div class="effect">グズグズしている相手の本質を指摘。「見透かされた」という感覚が逆に信頼を生む（矢崎ケース）。使うタイミングを選ぶが効果大。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 09 ／ 稼働時間を強みに変換</div>
+        <blockquote>「1週間で30〜40時間使えるなら、他の生徒の平均の3〜4倍のペースで改善できます。これは圧倒的なアドバンテージですよ。」</blockquote>
+        <div class="effect">相手の「時間が豊富」という状況を強みとして返す価値変換。久保ケースで成約の重要因。</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-num">Good 10 ／ 個別アカウント分析で信頼獲得</div>
+        <blockquote>「この子といえば和室だよね、ってなってますよね。ブランディングが確立できてる。これすごく強いですよ。」</blockquote>
+        <div class="effect">相手のアカウントを事前分析した上での具体的称賛＋価値化。「ちゃんと見てもらえている」という信頼感を生む。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 改善パターン -->
+<section>
+  <div class="container">
+    <h2 class="section-title">改善が必要なパターン TOP10（実際の発言引用）</h2>
+    <div class="phrase-grid">
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 01 ／ 「検討します」への即撤退【最重要】</div>
+        <blockquote>河野「ちょっと考えてみます」→島崎「そうですよね。ちょっと金額が高いですもんね。はい。かしこまりました。」</blockquote>
+        <div class="effect">ネックを全く深掘りせずに終了。分割払い・全額返金の説明がなかった。「何が一番引っかかっていますか？」を必ず入れる。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 02 ／ 代替案を自ら提示して逃げ道を作る</div>
+        <blockquote>矢崎「修理転売とかも考えてます」→島崎「じゃ、一旦やってみたらいいんじゃないですか（修理転売）」</blockquote>
+        <div class="effect">これが失注の直接原因。他副業を同意して提示した瞬間にクロージングが終了。「なぜSNSが最適か」の初期動機に立ち返るべきだった。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 03 ／ ヒアリングなしで金額提示</div>
+        <blockquote>（ヒアリング5分後）「80万円くらいです」→「結構するんですね」→「SNS学ぶのにこれでも安い方なんですけど」</blockquote>
+        <div class="effect">予算感・収益目標・現在の月収を確認せずに金額提示。「安い方」と返すのは相手の感覚を否定する逆効果。ROI逆算アプローチに変える。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 04 ／ 精神論クロージング</div>
+        <blockquote>森「金額が金額、結構えげつないぞ」→島崎「覚悟を決める時ですね」→森「いやいやいや、覚悟の問題だけじゃない」</blockquote>
+        <div class="effect">財務制約という現実的なネックに精神論で対抗。信頼関係を壊す可能性。「半年後に始める準備を今から一緒にしましょう」というロードマップ提案に変える。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 05 ／ トラウマへの感情的反応</div>
+        <blockquote>矢崎「なんかアムウェイみたいな感じで…」→島崎「ラムウェイと一緒にしないでくださいよ。失礼だ」</blockquote>
+        <div class="effect">相手の懸念を否定すると防衛反応が強まる。「どの部分が似てると感じましたか？一点一点確認しましょう」と受け入れてから違いを丁寧に説明するべき。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 06 ／ 長時間面談による疲弊</div>
+        <blockquote>矢崎（2時間26分後）「なんかゲロが出そうです」「メンタルだいぶやばいっすね」</blockquote>
+        <div class="effect">疲労とストレスが積み重なり逆効果。1.5時間以内（ヒアリング20分・教育20分・説明20分・クロージング20〜30分）を標準設計にする。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 07 ／ Near-closeの条件設定なし</div>
+        <blockquote>岡内「クリアにしたい」→島崎「じゃあ7日12時から」（条件なしで次回面談設定）</blockquote>
+        <div class="effect">「次回までに何を確認しておくか」「どういう状態なら契約するか」の合意なし。ただの先送りになるリスク大。次回面談のゴール定義が必須。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 08 ／ 成功事例が固定化・相手に合っていない</div>
+        <blockquote>（法人経営者に対して）「高校生が3ヶ月で40万円」「1ヶ月で100万人の北さん」</blockquote>
+        <div class="effect">相手の属性・業種に近い事例を優先すべき。法人→経営者採用事例、アイドル→演者系事例、主婦→ライフスタイル系事例を準備しておく。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 09 ／ タイムプレッシャーのタイミングが逆</div>
+        <blockquote>（金額ネック未解消の状態で）「ちょっとこれ当日限定になっちゃうんですけど、本日中にいけますか？」</blockquote>
+        <div class="effect">ネックを解消していない状態で時間プレッシャーをかけると圧迫感→防衛反応。「月2.3万・バイト3日分だが今月対応できそうですか？」でネック解消→当日限定の順番に変える。</div>
+      </div>
+
+      <div class="phrase-card bad">
+        <div class="phrase-num">Bad 10 ／ 序盤ヒアリングでの「過去のトラウマ」確認漏れ</div>
+        <blockquote>（2時間経過後に初めて発覚）「実はアムウェイで……」</blockquote>
+        <div class="effect">序盤に「過去にセミナーや副業商材で損した経験はありますか？」という質問を入れることで、早期に把握→クロージング戦略を最初から変えられる。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 優先アクション -->
+<section>
+  <div class="container">
+    <h2 class="section-title">契約率35%達成のための優先アクション</h2>
+    <div class="action-grid">
+
+      <div class="action-card p1">
+        <div class="priority">優先度 最高</div>
+        <h4>①「検討します」撲滅プロセス</h4>
+        <p>「検討します」「考えてみます」が出た瞬間に即撤退するパターンを変える。これだけで3〜5%の改善が見込める。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-before">現状</div>
+            <div>「そうですよね。かしこまりました。」→終了</div>
+          </div>
+          <div class="ba-row">
+            <div class="ba-label ba-after">改善</div>
+            <div>「何が一番引っかかっていますか？」→ネック特定→具体的な解消策（分割/返金）を提示→「この点が解消されれば始められますか？」</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p1">
+        <div class="priority">優先度 最高</div>
+        <h4>②「全額返金＋月額換算」を金額と同時に伝える</h4>
+        <p>「80万円」という数字が頭に刷り込まれる前に「実質2ヶ月無料・月2.3万円」を必ずセットで伝える。金額提示の順番を変えるだけで印象が劇的に変わる。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-before">現状</div>
+            <div>「1年間で80万円です」→（相手が驚く）→後から全額返金を説明</div>
+          </div>
+          <div class="ba-row">
+            <div class="ba-label ba-after">改善</div>
+            <div>「1年間のプログラムで、まず2ヶ月間お試しできます。全額返金保証つきです。分割なら月23,200円。その後続けるかは自分で決められます。総額は846,500円です。」</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p1">
+        <div class="priority">優先度 最高</div>
+        <h4>③ 序盤ヒアリングに「地雷確認」を追加</h4>
+        <p>過去のトラウマ・身近な反対者は2〜3時間後に発覚すると対処不可能になる。最初の5分でチェックリスト化する。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-after">追加質問</div>
+            <div>
+              「過去にセミナーや副業商材で損した経験はありますか？」<br>
+              「ご家族やパートナーはSNS副業についてどう思ってますか？」<br>
+              「今の会社は副業OK、自分で決断できますか？」
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p2">
+        <div class="priority">優先度 高</div>
+        <h4>④ 面談フローを60〜90分に標準化</h4>
+        <p>13分で終わるケース（価値未伝達）と2時間26分のケース（疲弊・失注）を両方防ぐ。フロー設計で一定のクオリティを担保する。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-after">標準フロー</div>
+            <div>
+              地雷確認・BANT確認（15分）→<br>
+              SNS価値教育（20分）→<br>
+              7サポート説明＋全額返金（20分）→<br>
+              クロージング（20分）→<br>
+              入金手続き or 次回条件設定（5分）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p2">
+        <div class="priority">優先度 高</div>
+        <h4>⑤ 意思決定権限なしケースの対処</h4>
+        <p>法人・事務所所属・同居パートナーがいるケースで「先送り」を繰り返さない。「社長説得スクリプト」を当日一緒に作ることが鍵。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-before">現状</div>
+            <div>「じゃあLINEで日程調整を」→先送り→フォロー切れ</div>
+          </div>
+          <div class="ba-row">
+            <div class="ba-label ba-after">改善</div>
+            <div>「社長が心配するのはどの点ですか？」→一緒に立論構築→「次回は社長も交えた3者面談を○日に設定しましょう」をその場で確定。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p2">
+        <div class="priority">優先度 高</div>
+        <h4>⑥ Near-closeに「次回の合意条件」を設定</h4>
+        <p>「検討期間を設ける」場合、「次回までに何を確認しておくか」「どういう状態になれば契約できるか」をその場で合意して終わる。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-after">追加する一言</div>
+            <div>「次回まで○○を確認してきていただけますか？それが解決していれば一緒に始めましょう。次は○日○時でいかがですか？」</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p3">
+        <div class="priority">優先度 中</div>
+        <h4>⑦ 成功事例の相手属性別バリエーション</h4>
+        <p>「高校生・北さん・60代女性」という固定事例に加え、相手の属性・業種に合った事例を使い分ける。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-after">準備</div>
+            <div>法人経営者→採用事例／アイドル・演者→エンタメ系事例／主婦・ライフスタイル→育児・料理系事例／ビジネス系→副業収益化事例</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card p3">
+        <div class="priority">優先度 中</div>
+        <h4>⑧ コンテンツ未決定者への教育フロー</h4>
+        <p>「何のSNSをやるかわからない」という相手に、料金説明の前にコンテンツ方向性を一緒に決めるステップを入れる。「今ここで一緒に決めましょう」が重要。</p>
+        <div class="before-after">
+          <div class="ba-row">
+            <div class="ba-label ba-after">改善</div>
+            <div>趣味・強み・職業・好きなコンテンツを聞く→「○○さんなら△△系アカウントが向いています。実例は…」→具体的なイメージを持たせてから料金へ</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 総合評価 -->
+<section>
+  <div class="container">
+    <h2 class="section-title">総合評価・強みと改善ポイント</h2>
+    <div class="two-col">
+      <div>
+        <h3 class="sub-title">強み（継続・強化すること）</h3>
+        <div style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06);">
+          <ul style="list-style:none;">
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">✅ 「全額返金＋2ヶ月お試し」を中心とした<strong>リスクゼロ訴求</strong>が全ケースで有効</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">✅ 「コンセプトで7割決まる」「SNS版パーソナルジム」という<strong>一貫した強いフレーム</strong></li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">✅ 「諦める言い訳を探してる」という<strong>核心を突く洞察力</strong>（タイミングを選べばさらに効果的）</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">✅ 法人・経営者に対して<strong>採用コスト比較</strong>でROIを伝えられる</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">✅ 相手のアカウントを事前分析した<strong>個別提案</strong>（猫田れなケース等）</li>
+            <li style="padding:8px 0;font-size:14px;">✅ 入金手続きの障害（カード限度額超過等）への<strong>即応力</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub-title">改善ポイント（重点的に変えること）</h3>
+        <div style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06);">
+          <ul style="list-style:none;">
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">🔴 「検討します」への<strong>即撤退パターン</strong>（最大の機会損失）</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">🔴 金額と全額返金制度を<strong>同時に伝えていない</strong>ケースがある</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">🔴 ヒアリング序盤に<strong>「過去のトラウマ・反対者」確認</strong>がない</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">🟡 面談時間が<strong>極端に短い or 長すぎる</strong>（13分 or 2時間26分）ケース</li>
+            <li style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">🟡 <strong>代替案を自分で提示</strong>して逃げ道を作る場面がある</li>
+            <li style="padding:8px 0;font-size:14px;">🟡 Near-closeの<strong>次回条件設定が曖昧</strong>で先送りになるケース</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ===== パターン分析 ===== -->
-<div class="section">
-  <div class="section-title">📈 Near-close vs 明確拒否 — パターン比較</div>
-  <div class="pattern-grid">
-    <div class="pbox ok">
-      <h4 class="ok">✅ Near-close（久保・馬場・深井）の共通点</h4>
-      <ul>
-        <li>顧客に<strong>時間的切迫感</strong>があった（退職決意・転職意向・採用課題が切迫）</li>
-        <li>返金制度を「リスクゼロのお試し」として<strong>完全に納得</strong>した</li>
-        <li>面談時間が<strong>60分超</strong>で十分な関係構築ができていた</li>
-        <li>価格が「月換算2〜3万」という<strong>感覚値と合致</strong>した</li>
-        <li><strong>成約意思は形成された</strong>が、決済プロセスの不備・アンカー管理ミス・フォロー未設計で失注</li>
-      </ul>
-    </div>
-    <div class="pbox ng">
-      <h4 class="ng">❌ 明確拒否・消滅（河野・森・伊藤・溝口・猫田）の共通点</h4>
-      <ul>
-        <li>具体的な懸念が<strong>解消されないまま保留</strong>になった</li>
-        <li>「考えます」を許容する<strong>フォローアップ設計がない</strong></li>
-        <li>顧客の「今すぐではない」シグナルを受け取り、<strong>即座に引き下がった</strong></li>
-        <li>意思決定者が別にいる（社長・事務所）のに<strong>その人物を巻き込まなかった</strong></li>
-        <li>財務的障壁が<strong>後半まで不明</strong>で、対策が打てなかった</li>
-      </ul>
+    <div class="tip-box" style="margin-top:28px;">
+      <strong>契約率+10pt達成シナリオ：</strong><br>
+      現在25%（241件中約60件成約）→35%（同約84件）に引き上げるには、月24件の上乗せが必要。<br>
+      <strong>最優先改善3つ（①検討撲滅 ②返金制度の前出し ③地雷確認）</strong>だけで、
+      現在のNear-closeケースの50%を成約に変えられると推計（現状のNear-closeは全体の20〜25%前後と推定）。
+      これだけで+5〜7ptの改善が見込める。残り3〜5ptは面談フロー標準化と意思決定者対策で積み上げる。
     </div>
   </div>
-</div>
+</section>
 
-<!-- ===== 4軸以外の追加問題 ===== -->
-<div class="section">
-  <div class="section-title">⚠️ その他の問題点（4軸以外）</div>
-  <ul class="issue-list">
-    <li>
-      <div class="it">【面談時間管理】短時間（13分）と長時間（136分）が混在し、どちらも機能していない</div>
-      <div class="id">河野・福井の13分セッションはコンセプト〜料金提示の時間が全く足りずクロージング未到達。森の136分は顧客が疲弊しネガティブな判断を引き出した。理想は「ヒアリング20分・教育＋説明25分・クロージング15分」の60分設計。</div>
-    </li>
-    <li>
-      <div class="it">【失注後フォロー設計なし】再検討タイミングが明確な顧客をパイプライン管理していない</div>
-      <div class="id">森さおり（他講座終了6ヶ月後）・猫田れな（事務所休止予定4月以降）など、再検討タイミングが明確な顧客が複数いる。「失注」ではなく「パイプライン顧客」として定期フォロースケジュールを設定すべき。</div>
-    </li>
-    <li>
-      <div class="it">【面談前の価格認知ズレ】LP〜LINE段階で価格帯が伝わっていない</div>
-      <div class="id">猫田れなが「8万円と聞いて安く感じた」と発言（実際は80万円）。河野典子も価格提示直後に面談終了。面談前のLINEで「価格帯80万・全額返金制度あり」を予習させることで、価格ショックによる短時間離脱を防げる。</div>
-      <div class="quote">「8万円と聞いて安く感じた」（猫田）→ 面談内で80万円と訂正 → 「予想通りの金額だった」と答えたが認知ズレは発生していた</div>
-    </li>
-    <li>
-      <div class="it">【自己開示の不足】島﨑自身の体験談・失敗談がほぼ出てこない</div>
-      <div class="id">全10件を通じて、コンサルタント自身の個人的な体験（失敗・転機・成功）がほとんど語られていない。「同じ経験をした人が教えてくれる」という共感・安心感の醸成が弱く、信頼構築が会社の実績だけに依存している。</div>
-    </li>
-    <li>
-      <div class="it">【スクリプトの方言・表現の汎用性問題】「お前誰やねん」等が全顧客に使われる</div>
-      <div class="id">大阪弁スラング「お前誰やねん」が河野典子（50代・元ソニー社長秘書）・深井奨之（経営者）にも同様に使用されている。また「脱毛みたいな感じで分割払い」というアナロジーが全件に登場するが、法人経営者や40代以上の女性には違和感がある。</div>
-    </li>
-    <li>
-      <div class="it">【成約ベストトークの非言語化】成約に近かったケースの効果的トークが横展開されていない</div>
-      <div class="id">深井ケースで偶然登場した「SNS担当雇用ROI比較」、馬場ケースの「返金制度の具体的な使い方提示」など、成約意欲を高めた場面でのトークが型化・標準化されていない。</div>
-    </li>
-  </ul>
-</div>
+<footer>
+  HERO'ZZ SNSスクール 島崎英吉 様 営業分析レポート v3 ／ 分析対象：241件文字起こし（詳細精読17件）／ 2026年6月10日
+</footer>
 
-<!-- ===== 優先改善アクション ===== -->
-<div class="section">
-  <div class="section-title">🚀 優先改善アクション TOP 8</div>
-  <div class="action-grid">
-
-    <div class="action-card p1" data-n="1">
-      <div class="ac-pri">▲ PRIORITY 1 — 即日実施・最大インパクト</div>
-      <h4>「考えます」への標準カウンタースクリプトを作成・徹底する</h4>
-      <p>現状4件でゼロカウンター。「何についてですか？」→全懸念を出させる→一つずつ処理するフローを必須化。</p>
-      <div class="sc">「○○さん、ちょっとだけ聞いてもいいですか。今何について考えてらっしゃいますか？それ以外に気になる点もありますか？全部出してもらえれば、今日中に全部お答えできると思うので」</div>
-    </div>
-
-    <div class="action-card p1" data-n="2">
-      <div class="ac-pri">▲ PRIORITY 1 — Near-close失注を直接防ぐ</div>
-      <h4>面談前に「クレカ・本人確認書類の準備」を案内する</h4>
-      <p>Near-close3件全てが決済プロセス不備で失注。面談前LINEで準備を促すだけで防げる。</p>
-      <div class="sc">（面談前LINE）「本日の面談では、もし参加希望の場合にスムーズに手続きできるよう、クレジットカードと身分証（免許証など）を手元に用意しておいてください」</div>
-    </div>
-
-    <div class="action-card p1" data-n="3">
-      <div class="ac-pri">▲ PRIORITY 1 — 全件に影響する構造的問題</div>
-      <h4>能動的フォローアップを全件で設定する</h4>
-      <p>現状10/10件が「顧客からの連絡待ち」。「私から○日に連絡します」という約束を面談終了時に必ず設定する。</p>
-      <div class="sc">「じゃあ○日の夜9時にこちらからLINEしますね。それまでに考えてみてください。その時に割引もまだ使えるようにしておきます」</div>
-    </div>
-
-    <div class="action-card p2" data-n="4">
-      <div class="ac-pri">● PRIORITY 2 — 序盤の失注を防ぐ</div>
-      <h4>面談10分以内にBANT（財務・意思決定者・緊急度）を確認する</h4>
-      <p>森ケースの「120分後に財務障壁発覚」・溝口ケースの「終盤に社長確認が必要と発覚」を防ぐ。</p>
-      <div class="sc">「まず少し聞かせてください。今、他に月々何か固定の支出はありますか？また今日もし参加するとなった場合、ご自身で決められますか？」</div>
-    </div>
-
-    <div class="action-card p2" data-n="5">
-      <div class="ac-pri">● PRIORITY 2 — 価格への先入観を除去</div>
-      <h4>価格提示の冒頭フレーズを「価値先行型」に変更する</h4>
-      <p>「80万円は高い」という自己否定フレーズを全件削除。月換算・ROI比較・価値先行での提示に変更。</p>
-      <div class="sc">「月6万円ちょっとの投資で、担当者を雇うより確実にスキルが身につきます。○○さんの目標に対してどうですか？」（「高い」という言葉を使わない）</div>
-    </div>
-
-    <div class="action-card p3" data-n="6">
-      <div class="ac-pri">◆ PRIORITY 3 — BtoB契約率の改善</div>
-      <h4>BtoB：決裁者同席面談を積極的に設計する</h4>
-      <p>「社長に相談します」は失注フラグ。その瞬間に決裁者を巻き込む設計に切り替える。</p>
-      <div class="sc">「資料を渡すより私から5分で説明する方が社長も判断しやすいと思います。今日このままお呼びするか、来週3人で設定しませんか？」</div>
-    </div>
-
-    <div class="action-card p3" data-n="7">
-      <div class="ac-pri">◆ PRIORITY 3 — 当日割引のアンカー管理</div>
-      <h4>当日割引の延長を禁止し、懸念解消に転換する</h4>
-      <p>深井ケースのように割引延長を承諾すると「交渉可能」と学習され消滅。「延長不可・代わりに今日中に懸念を解消する」に変更。</p>
-      <div class="sc">「延長はちょっと難しいんですが、今引っかかってることがあれば今日中に全部解消できます。何ですか？」</div>
-    </div>
-
-    <div class="action-card p4" data-n="8">
-      <div class="ac-pri">◇ PRIORITY 4 — 中長期パイプライン構築</div>
-      <h4>再検討タイミングが明確な失注顧客をパイプライン管理する</h4>
-      <p>森さおり（6ヶ月後）・猫田れな（4月以降）など再検討期がある顧客を失注扱いせずCRMに登録。リマインダーを設定する。</p>
-      <div class="sc">「○月になったらまた話しましょう。その時期が来たら私からご連絡しますね」→ LINEリマインダーをその場で設定</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ===== まとめ ===== -->
-<div class="summary-section">
-  <div class="section-title">📌 まとめ：契約率25% → 35%達成のロードマップ</div>
-  <div class="summary-grid">
-    <div class="summary-col">
-      <h4>📅 今すぐ実施（Week 1）</h4>
-      <ul>
-        <li>「考えます」カウンタースクリプトの作成・暗記</li>
-        <li>面談前LINEに「クレカ・本人確認書類の準備」を追加</li>
-        <li>全件の面談終了時に「私から○日に連絡します」を設定</li>
-        <li>「80万円って高い」フレーズを即日削除</li>
-      </ul>
-    </div>
-    <div class="summary-col">
-      <h4>🗓️ 1〜2週間で整備</h4>
-      <ul>
-        <li>BANT確認を面談冒頭フローに組み込む</li>
-        <li>BtoB専用ピッチ（採用ROI・ブランディング数値化）の作成</li>
-        <li>顧客属性別の事例バンク整備（BtoB/主婦/学生/フリーター）</li>
-        <li>返金制度をA4 1枚の図に整理する</li>
-        <li>LP〜LINEで価格帯・返金制度を事前案内するコンテンツ設計</li>
-      </ul>
-    </div>
-  </div>
-  <div class="summary-alert">
-    <strong>🔑 核心メッセージ：</strong>
-    Near-close 3件（久保・馬場・深井）は<strong>成約意欲が形成されていたにもかかわらず決済プロセス不備・アンカー破壊・フォロー未設計で失注</strong>した。この3件が全て成約していれば、本分析対象での成約率は30%に達していた。<br><br>
-    最大の問題は「熱量・スキル・実績の不足」ではなく、<strong>①決済を面談内で完結させる設計、②「考えます」へのカウンター、③能動的フォローアップ</strong>という「営業プロセスの仕組み」の欠如。これらは全てスクリプトとフローの整備で即日改善できる。
-  </div>
-</div>
-
-<footer>HERO'ZZ 営業分析レポート v2 ｜ 島﨑担当 全面談 ｜ 分析日：2026年6月</footer>
-
-</div><!-- /container -->
 </body>
 </html>
